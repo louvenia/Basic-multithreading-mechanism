@@ -1,7 +1,7 @@
 package ex00;
 
 public class Egg implements Runnable {
-    private int number;
+    private final int number;
 
     public Egg(int number) {
         this.number = number;

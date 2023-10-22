@@ -6,6 +6,7 @@ public class Producer implements Runnable {
     private final Consumer consumer;
     private final int id;
     private static int filesCount = 0;
+
     public Producer(Consumer consumer, int id, int filesCount) {
         this.id = id;
         this.consumer = consumer;

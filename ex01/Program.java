@@ -2,13 +2,10 @@ package ex01;
 
 public class Program {
     public static void main(String[] args) {
-        if(args.length != 1) {
-            errorMessage("Invalid number of elements");
-        } else if(!args[0].startsWith("--count=")) {
-            errorMessage("Invalid program argument entry. Example: --count=n (where n is the number of answers)");
-        }
-
         int number = 0;
+        Program p = new Program();
+
+        p.validationArguments(args);
         try {
             number = Integer.parseInt(args[0].replace("--count=", ""));
         } catch (NumberFormatException error) {
@@ -23,11 +20,19 @@ public class Program {
             thread1.start();
             thread2.start();
         } else {
-            errorMessage("The number of answers must be positive and greater than zero");
+            p.errorMessage("The number of answers must be positive and greater than zero");
         }
     }
 
-    private static void errorMessage(String msg) {
+    private void validationArguments(String[] args) {
+        if(args.length != 1) {
+            errorMessage("Invalid number of elements");
+        } else if(!args[0].startsWith("--count=")) {
+            errorMessage("Invalid program argument entry. Example: --count=n (where n is the number of answers)");
+        }
+    }
+
+    private void errorMessage(String msg) {
         System.err.println(msg);
         System.exit(-1);
     }

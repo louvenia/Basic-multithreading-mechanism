@@ -9,6 +9,7 @@ public class CreateArray {
         this.size = size;
         arr = new int[size];
     }
+
     public void fillingArray() {
         for(int i = 0; i < size; i++) {
             arr[i] = ((int)(Math.random() * 2001)) - MAX_VALUE;

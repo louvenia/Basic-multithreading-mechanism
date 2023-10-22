@@ -4,20 +4,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Program {
-    private static CreateArray arr;
-    private static final List<CalcThread> threadList = new ArrayList<>();
+    private CreateArray arr;
+    private final List<CalcThread> threadList = new ArrayList<>();
 
     public static void main(String[] args) {
-        int numberElements, numberThreads;
         int sum = 0;
-        validationArgument(args);
-        numberElements = numberParse(args[0],"--arraySize=");
-        numberThreads = numberParse(args[1], "--threadsCount=");
-        validationParameters(numberElements, numberThreads);
-        createArr(numberElements);
-        addThreadList(numberElements, numberThreads);
+        int numberElements, numberThreads;
+        Program p = new Program();
 
-        for (CalcThread th : threadList) {
+        p.validationArgument(args);
+        numberElements = p.numberParse(args[0],"--arraySize=");
+        numberThreads = p.numberParse(args[1], "--threadsCount=");
+        p.validationParameters(numberElements, numberThreads);
+        p.createArr(numberElements);
+        p.addThreadList(numberElements, numberThreads);
+
+        for (CalcThread th : p.threadList) {
             try {
                 th.join();
             } catch (InterruptedException error) {
@@ -25,14 +27,14 @@ public class Program {
             }
         }
 
-        for(CalcThread th : threadList) {
+        for(CalcThread th : p.threadList) {
             sum += th.getSum();
         }
 
         System.out.println("Sum by threads: " + sum);
     }
 
-    private static void validationArgument(String[] args) {
+    private void validationArgument(String[] args) {
         if(args.length != 2) {
             errorMessage("Invalid number of elements");
         } else if(!args[0].startsWith("--arraySize=")) {
@@ -42,7 +44,7 @@ public class Program {
         }
     }
 
-    private static int numberParse(String argument, String nameArg) {
+    private int numberParse(String argument, String nameArg) {
         int number = 0;
         try {
             number = Integer.parseInt(argument.replace(nameArg, ""));
@@ -53,12 +55,12 @@ public class Program {
         return number;
     }
 
-    private static void errorMessage(String msg) {
+    private void errorMessage(String msg) {
         System.err.println(msg);
         System.exit(-1);
     }
 
-    public static void validationParameters(int numberElements, int numberThreads) {
+    private void validationParameters(int numberElements, int numberThreads) {
         if(numberElements < 1 || numberThreads < 1) {
             errorMessage("The number of array elements and threads must be positive and greater than zero");
         } else if(numberElements > 2000000 || numberThreads > numberElements) {
@@ -66,13 +68,13 @@ public class Program {
         }
     }
 
-    public static void createArr(int numberElements) {
+    private void createArr(int numberElements) {
         arr = new CreateArray(numberElements);
         arr.fillingArray();
         System.out.println("Sum: " + arr.calculateSum());
     }
 
-    public static void addThreadList(int numberElements, int numberThreads) {
+    private void addThreadList(int numberElements, int numberThreads) {
         int start = 0, end = 0;
         CalcThread thread;
         int elementsThread = numberElements / numberThreads;

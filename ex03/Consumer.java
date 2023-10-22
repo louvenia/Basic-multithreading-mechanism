@@ -8,8 +8,8 @@ import java.nio.file.Paths;
 
 public class Consumer {
     private static int numberFiles = 0;
+    private static final Path directory = Paths.get("./ex03/Download/");
     private final Object[] linesFile;
-    private final Path directory = Paths.get("./ex03/Download/");
 
     public Consumer(Object[] linesFile) {
         this.linesFile = linesFile;
